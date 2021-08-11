@@ -84,13 +84,6 @@ class LoginSerializer(serializers.ModelSerializer):
 
         return super().validate(attrs)
 
-class ResetPasswordEmailRequestSerializer(serializers.Serializer):
-    email = serializers.EmailField(min_length=2)
-
-    redirect_url = serializers.CharField(max_length=200, required=False)
-
-    class Meta:
-        fields=['email']
 
 class ResetPasswordEmailRequestSerializer(serializers.Serializer):
     email = serializers.EmailField(min_length=2)

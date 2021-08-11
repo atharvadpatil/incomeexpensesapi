@@ -109,7 +109,8 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
             Util.send_email(data)                                                                                          #|
         return Response({'success': 'We have sent you a link to reset your password'}, status=status.HTTP_200_OK)          #|
                                                                                                                            #|
-class PasswordTokenCheckAPI(generics.GenericAPIView):                                                                      #|
+class PasswordTokenCheckAPI(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerializer                                                                      #|
     def get(self, request, uidb64, token):                                                                                 #|
                                                                                                                            #| 
         redirect_url = request.GET.get('redirect_url')#------------------Coming Form here------------------------------------
@@ -130,7 +131,7 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):                           
             if redirect_url and len(redirect_url) > 3:
                 return CustomRedirect(redirect_url+'?token_valid=True&message=Credentials Valid&uidb64='+uidb64+'&token='+token)
             else:
-                return CustomRedirect(os.environ.get('FRONTEND_URL', '')+'?token_valid=False')
+                return CustomRedirect(config('FRONTEND_URL', '')+'?token_valid=False')
             
 
         except DjangoUnicodeDecodeError as identifier:
